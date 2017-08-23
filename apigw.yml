@@ -1,0 +1,44 @@
+---
+swagger: "2.0"
+info:
+  version: ""
+  title: ""
+host: ""
+basePath: "/PRO"
+schemes:
+- "https"
+paths:
+  /gotham/sms:
+    post:
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/x-www-form-urlencoded: "{\n    \"data\": {\n        #foreach(\
+            \ $token in $input.path('$').split('&') )\n            #set( $keyVal =\
+            \ $token.split('=') )\n            #set( $keyValSize = $keyVal.size()\
+            \ )\n            #if( $keyValSize >= 1 )\n                #set( $key =\
+            \ $util.urlDecode($keyVal[0]) )\n                #if( $keyValSize >= 2\
+            \ )\n                    #set( $val = $util.urlDecode($keyVal[1]) )\n\
+            \                #else\n                    #set( $val = '' )\n      \
+            \          #end\n                \"$key\": \"$val\"#if($foreach.hasNext),#end\n\
+            \            #end\n        #end\n    }\n}        "
+        uri: "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:860732622553:function:gotham_sms/invocations"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+definitions:
+  Empty:
+    type: "object"
+    title: "Empty Schema"
