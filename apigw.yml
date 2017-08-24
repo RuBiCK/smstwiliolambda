@@ -33,7 +33,7 @@ paths:
             \                #else\n                    #set( $val = '' )\n      \
             \          #end\n                \"$key\": \"$val\"#if($foreach.hasNext),#end\n\
             \            #end\n        #end\n    }\n}        "
-        uri: "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-1:860732622553:function:gotham_sms/invocations"
+        uri: "<<YOUR ARN LAMBDA>>"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
